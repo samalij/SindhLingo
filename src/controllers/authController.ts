@@ -43,9 +43,12 @@ export const signin = async (req: Request, res: Response) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, JWT_SECRET, { expiresIn: "7d" });
 
-    res.status(200).json({ token, user: { id: user._id, name: user.name, email: user.email } });
+    res.status(200).json({
+      token,
+      user: { id: user._id, name: user.name, email: user.email, isAdmin: user.isAdmin },
+    });
   } catch (error: any) {
     res.status(500).json({ message: "Something went wrong", error: error.message });
   }

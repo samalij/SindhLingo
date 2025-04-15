@@ -4,7 +4,8 @@ import cors from "cors";
 import quizRoutes from "./routes/quizroute";
 import adminRoutes from "./routes/adminroutes";
 import authRoutes from "./routes/auth";
-import chatRoutes from "./routes/chatRoute"; // Import chat routes
+import chatRoutes from "./routes/chatRoute";
+import queryRoutes from "./routes/queryRoutes"; // Import chat routes
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(
 
 // MongoDB Connection
 mongoose
-  .connect("mongodb://localhost:27017/SindhiLingo")
+  .connect("mongodb+srv://AleenaAbbasi:aleenaabbasi@cluster0.ue7gr7d.mongodb.net/")
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -32,7 +33,7 @@ app.use("/api/quizzes", quizRoutes);
 app.use("/api/admin/", adminRoutes);
 app.use("/api/auth/", authRoutes);
 app.use("/api/chats", chatRoutes); // Add chat routes
-
+app.use("/api/queries", queryRoutes);
 // Server Configuration
 const PORT = process.env.PORT || 2000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   quizzes: mongoose.Types.ObjectId[]; // Array of Quiz IDs
+  isAdmin: boolean; // Flag to indicate if the user is an admin
 }
 
 const UserSchema = new Schema<IUser>({
@@ -12,6 +13,7 @@ const UserSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   quizzes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Quiz" }], // Reference to Quiz model
+  isAdmin: { type: Boolean, default: false }, // Default is regular user
 });
 
 export default mongoose.model<IUser>("User", UserSchema);

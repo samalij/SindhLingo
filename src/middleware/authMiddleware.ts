@@ -48,3 +48,26 @@ interface DecodedToken {
       res.status(401).json({ message: "Invalid or expired token." });
     }
   };
+
+  export const verifyAdmin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const token = req.headers.authorization?.split(" ")[1];
+      if (!token) {
+        res.status(401).json({ message: "Unauthorized" });
+        return;
+      }
+  
+      const decoded: any = jwt.verify(token, JWT_SECRET);
+      const user = await User.findById(decoded.id);
+  
+      if (!user || !user.isAdmin) {
+        res.status(403).json({ message: "Access denied. Admins only." });
+        return;
+      }
+  
+      req.user = user;
+      next();
+    } catch (error) {
+      res.status(401).json({ message: "Invalid token" });
+    }
+  };
